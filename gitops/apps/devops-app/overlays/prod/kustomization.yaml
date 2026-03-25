@@ -7,5 +7,5 @@ namespace: devops-prod
 patches:
   - path: replicas-patch.yaml
 images:
-  - name: ghcr.io/OUSMANE-SACKO/devops-app
+  - name: ghcr.io/ousmane-sacko/devops-app
     newTag: 1.0.0

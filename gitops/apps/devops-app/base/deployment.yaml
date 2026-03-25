@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/OUSMANE-SACKO/devops-app:1.0.0
+          image: ghcr.io/ousmane-sacko/devops-app:1.0.0
           ports:
             - containerPort: 3000
           readinessProbe:
