@@ -1,0 +1,76 @@
+# -- Nombre de réplicas
+replicaCount: 3
+
+image:
+  repository: devops-app
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  host: devops.local
+
+httpRoute:
+  enabled: false
+
+serviceAccount:
+  create: false
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi
+
+# -- Configuration applicative
+config:
+  nodeEnv: production
+  logLevel: info
+  appPort: "3000"
+
+# -- Base de données
+postgresql:
+  enabled: true
+  auth:
+    database: appdb
+    username: appuser
+    # Le password doit être fourni via --set ou un secret externe
+  primary:
+    persistence:
+      size: 1Gi
+
+# -- Probes
+probes:
+  readiness:
+    path: /
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  liveness:
+    path: /
+    initialDelaySeconds: 15
+    periodSeconds: 20
+
+# -- Autoscaling
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
